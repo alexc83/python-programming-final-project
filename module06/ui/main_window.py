@@ -1,3 +1,4 @@
+import os
 import pickle
 import sys
 
@@ -8,7 +9,8 @@ from PyQt6 import uic, QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QFileDialog, QMessageBox, QDialog
 
-UI_MainWindow, QTBaseWindow = uic.loadUiType("main_window.ui")
+complete_file_path = os.path.join(os.path.dirname(__file__), "main_window.ui")
+UI_MainWindow, QTBaseWindow = uic.loadUiType(complete_file_path)
 
 class MainWindow(QTBaseWindow, UI_MainWindow):
     """
@@ -185,11 +187,16 @@ class MainWindow(QTBaseWindow, UI_MainWindow):
 
         :return: none
         """
+        # the league selected in the list widget is saved
         selected_league = self.get_selected_league()
+        # a message is displayed if no league is selected
         if selected_league is None:
             self.warn("Select League", "You must select a league to edit")
         else:
+            # the edit league dialog is called
             dialog = EditLeagueDialog(self.league_db, selected_league)
+            # if saved is clicked in the edit league dialog, the UI is updated
+            # messages for either changes saved or not is displayed to the user
             if dialog.exec() == QDialog.DialogCode.Accepted:
                 self.update_ui()
                 self.warn("Changes saved", f"Changes to {selected_league.name} were saved")
