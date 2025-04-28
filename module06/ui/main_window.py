@@ -1,3 +1,10 @@
+# CPSC 4970 - Python Programming
+#
+# Assignment 6 - Final Project
+#
+# Author: Alan Cruce
+# Date: April 28, 2025
+
 import os
 import pickle
 import sys

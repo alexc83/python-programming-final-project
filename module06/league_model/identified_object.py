@@ -1,9 +1,9 @@
 # CPSC 4970 - Python Programming
 #
-# Assignment 5
+# Assignment 6 - Final Project
 #
 # Author: Alan Cruce
-# Date: April 18, 2025
+# Date: April 28, 2025
 
 # abstract class
 from abc import ABC, abstractmethod

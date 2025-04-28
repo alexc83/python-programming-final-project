@@ -1,9 +1,9 @@
 # CPSC 4970 - Python Programming
 #
-# Assignment 5
+# Assignment 6 - Final Project
 #
 # Author: Alan Cruce
-# Date: April 18, 2025
+# Date: April 28, 2025
 
 from module06.league_model.exceptions import DuplicateOid
 from module06.league_model.identified_object import IdentifiedObject
