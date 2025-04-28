@@ -25,5 +25,6 @@ module06 package.
 ## How to Execute the UI
 1. Load all necessary third party libraries as noted in the requirements.txt file
 2. Open the main_window.py file contained in the module06/ui package in PyCharm
-3. Click the run button ensuring the main_window.py file is the one being run
+3. Click the run button ensuring the main_window.py file is the one being run as this file contains a main method
+
 

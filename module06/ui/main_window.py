@@ -9,6 +9,7 @@ from PyQt6 import uic, QtWidgets
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import QFileDialog, QMessageBox, QDialog
 
+# this code helps prevent issues with relative file paths
 complete_file_path = os.path.join(os.path.dirname(__file__), "main_window.ui")
 UI_MainWindow, QTBaseWindow = uic.loadUiType(complete_file_path)
 

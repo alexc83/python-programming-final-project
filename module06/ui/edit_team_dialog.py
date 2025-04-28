@@ -8,6 +8,7 @@ from PyQt6.QtWidgets import QMessageBox, QDialog
 from module06.league_model.team_member import TeamMember
 from module06.ui.edit_member_dialog import EditMemberDialog
 
+# this code helps prevent issues with relative file paths
 complete_file_path = os.path.join(os.path.dirname(__file__), "edit_team_dialog.ui")
 UI_MainWindow, QTBaseWindow = uic.loadUiType(complete_file_path)
 

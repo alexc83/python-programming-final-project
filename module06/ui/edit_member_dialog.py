@@ -2,6 +2,7 @@ import os
 
 from PyQt6 import uic
 
+# this code helps prevent issues with relative file paths
 complete_file_path = os.path.join(os.path.dirname(__file__), "edit_member_dialog.ui")
 UI_MainWindow, QTBaseWindow = uic.loadUiType(complete_file_path)
 
