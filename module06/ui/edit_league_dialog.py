@@ -1,11 +1,11 @@
 import copy
-import sys
 
 from PyQt6 import uic, QtWidgets
 from PyQt6.QtCore import Qt
-from PyQt6.QtWidgets import QMessageBox, QFileDialog
+from PyQt6.QtWidgets import QMessageBox, QFileDialog, QDialog
 
 from module06.league_model.team import Team
+from module06.ui.edit_team_dialog import EditTeamDialog
 
 UI_MainWindow, QTBaseWindow = uic.loadUiType("edit_league_dialog.ui")
 
@@ -24,12 +24,12 @@ class EditLeagueDialog(QTBaseWindow, UI_MainWindow):
         # buttons
         self.add_team_button.clicked.connect(self.add_team_button_clicked)
         self.delete_team_button.clicked.connect(self.delete_team_button_clicked)
+        self.edit_team_button.clicked.connect(self.edit_team_button_clicked)
         self.export_data_button.clicked.connect(self.export_data_button_clicked)
         self.import_data_button.clicked.connect(self.import_data_button_clicked)
         self.button_box.accepted.connect(self.save_button_clicked)
         self.button_box.rejected.connect(self.cancel_button_clicked)
-        for team in self.selected_league_copy.teams:
-            print(team)
+
 
     def add_team_button_clicked(self):
         # checks if there is a name entered and throws a message if not
@@ -39,9 +39,12 @@ class EditLeagueDialog(QTBaseWindow, UI_MainWindow):
             # creates a new League object using the name provided by the user
             new_team = Team(self.league_db.next_oid(),
                                 self.team_name_line_edit.text())
-            # updates the LeagueDatabase object and updates the UI
+            # updates the league copy object and updates the UI
             self.selected_league_copy.add_team(new_team)
+            # this makes the add team name field blank
+            self.team_name_line_edit.setText("")
             self.update_ui()
+
 
     def delete_team_button_clicked(self):
         selected_team = self.get_selected_team()
@@ -50,6 +53,18 @@ class EditLeagueDialog(QTBaseWindow, UI_MainWindow):
         else:
             self.selected_league_copy.remove_team(selected_team)
             self.update_ui()
+
+    def edit_team_button_clicked(self):
+        selected_team = self.get_selected_team()
+        if selected_team is None:
+            self.warn("Select Team", "You must select a team to edit")
+        else:
+            dialog = EditTeamDialog(self.league_db, self.selected_league_copy, selected_team)
+            if dialog.exec() == QDialog.DialogCode.Accepted:
+                self.update_ui()
+                self.warn("Changes saved", f"Changes to {selected_team.name} were saved")
+            else:
+                self.warn("Changes not saved", f"Changes to {selected_team.name} were not saved")
 
     def export_data_button_clicked(self):
         fn = QFileDialog.getSaveFileName(self, "Save File", "./league_model/data",
@@ -69,7 +84,6 @@ class EditLeagueDialog(QTBaseWindow, UI_MainWindow):
         self.update_ui()
 
     def save_button_clicked(self):
-        print("Save clicked")
         leagues = self.league_db.leagues
         index = leagues.index(self.selected_league_original)
         leagues[index] = self.selected_league_copy
@@ -115,11 +129,3 @@ class EditLeagueDialog(QTBaseWindow, UI_MainWindow):
     def warn(self, title, message):
         mb = QMessageBox(QMessageBox.Icon.NoIcon, title, message, QMessageBox.StandardButton.Ok)
         mb.exec()
-
-
-if __name__ == '__main__':
-    # initial setup
-    app = QtWidgets.QApplication(sys.argv)
-    window = EditLeagueDialog()
-    window.show()
-    sys.exit(app.exec())
